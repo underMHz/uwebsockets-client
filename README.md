@@ -1,9 +1,17 @@
-## uwebsockets-client
+## 📡 uwebsockets-client
 Websoket connection as client with Raspberry pi pico W (Micropython) considering SSL/TLS authentication.
 
 ----
 
-## File configuration
+## 🔧 Development environment
+
+・MicroPython(v1.20.0)
+
+・Thonny(v4.1.4)
+
+----
+
+## 📂 File configuration
 
 - Please Google how to download crt.(Chain) by yourself.
 
@@ -16,7 +24,7 @@ RASPBERRY PI PICO<br>
 
 ----
 
-## Example (main.py)
+## 📝 Example (main.py)
 
 ```python
 from uwebsockets-client import connect
