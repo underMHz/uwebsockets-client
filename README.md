@@ -19,7 +19,7 @@ RASPBERRY PI PICO<br>
 ## Example (main.py)
 
 ```python
-from uwebsockets import connect
+from uwebsockets-client import connect
 
 uri = "wss://piyopiyo.net:443/v1/ws"
 
