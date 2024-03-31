@@ -20,14 +20,14 @@ RASPBERRY PI PICO<br>
 │&nbsp;&nbsp;hogehoge.crt<br>
 │<br>
 └─lib<br>
-&nbsp;&nbsp;&nbsp;&nbsp;uwebsockets-client.py<br>
+&nbsp;&nbsp;&nbsp;&nbsp;uwebsocketsclient.py<br>
 
 ----
 
 ## 📝 Example (main.py)
 
 ```python
-from uwebsockets-client import connect
+from uwebsocketsclient import connect
 
 uri = "wss://piyopiyo.net:443/v1/ws"
 
