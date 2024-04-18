@@ -15,12 +15,13 @@ Websoket connection as client with Raspberry pi pico W (Micropython) considering
 
 - Please Google how to download crt.(Chain) by yourself.
 
-RASPBERRY PI PICO<br>
-│&nbsp;&nbsp;main.py<br>
-│&nbsp;&nbsp;hogehoge.crt<br>
-│<br>
-└─lib<br>
-&nbsp;&nbsp;&nbsp;&nbsp;uwebsocketsclient.py<br>
+```
+Raspberry Pi Pico/
+├── lib/
+│   ├── example.crt
+│   └── uwebsocketsclient.py
+└── main.py
+```
 
 ----
 
