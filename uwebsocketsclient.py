@@ -3,7 +3,6 @@ Websockets client for micropython (with SSL/TLS)
 Based very heavily on
 https://gist.github.com/laurivosandi/2983fe38ad7aff85a5e3b86be8f00718
 '''
-
 import ubinascii as binascii
 import urandom as random
 import ure as re
@@ -57,13 +56,14 @@ No text files other than certificates should be placed in the listing directory.
 Download the .crt certificate for the site you want to access in advance and upload it to Pi pico.
 '''
 def get_cadata():
-    listdir = uos.listdir()
+    dir_path = '/lib/'
+    listdir = uos.listdir(dir_path)
 
     if any(".crt" in filename for filename in listdir):
         crt_file_path = [filename for filename in listdir if filename.endswith(".crt")]
         
         if len(crt_file_path) == 1:
-            crt_file_path = crt_file_path[0]
+            crt_file_path = dir_path + crt_file_path[0]
             txt_file_path = crt_file_path[:-3] + "txt"
             uos.rename(crt_file_path, txt_file_path)
 
@@ -105,7 +105,7 @@ def get_cadata():
 
     else:
         txt_file_path = [filename for filename in listdir if filename.endswith(".txt")]
-        txt_file_path = txt_file_path[0]
+        txt_file_path = dir_path + txt_file_path[0]
         
         f = open(txt_file_path)
         ca_data_base64 = f.read()
@@ -281,13 +281,13 @@ def connect(uri):
     addr = socket.getaddrinfo(uri.hostname, uri.port)
     sock.connect(addr[0][4])
     
-    tls_socket = ssl.wrap_socket(sock, server_side=False, cert_reqs=ssl.CERT_REQUIRED, cadata=ca_data, server_hostname=uri.hostname, do_handshake=True)
+    tls_socket = ssl.wrap_socket(sock, server_side=False, cert_reqs=ssl.CERT_REQUIRED, cadata=ca_data, server_hostname=uri.hostname)
     tls_socket.setblocking(True)
     
     # Sec-WebSocket-Key is 16 bytes of random base64 encoded
     key = binascii.b2a_base64(bytes(random.getrandbits(8)
                                     for _ in range(16)))[:-1]
-
+    
     tls_socket.write(f'GET {uri.path} HTTP/1.1\r\n')
     tls_socket.write(f'Host: {uri.hostname}:{uri.port}\r\n')
     tls_socket.write('Upgrade: websocket\r\n')
@@ -298,7 +298,7 @@ def connect(uri):
 
     header = tls_socket.readline()[:-2]
     assert header == b'HTTP/1.1 101 Switching Protocols', header
-
+    
     # We don't (currently) need these headers
     # FIXME: should we check the return key?
     while header:
